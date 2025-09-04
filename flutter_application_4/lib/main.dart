@@ -33,33 +33,37 @@ class _MyWidgetState extends State<MyWidget> {
   
 
   void _checkEligibility() {
-    String name = _namecontroller.text; 
-    int age = int.parse(_agecontroller.text);
-    double salary = double.parse(_salarycontroller.text);
-    double loan = double.parse(_loancontroller.text);
-    double existingemi = double.parse(_existingemicontroller.text);
-    double tenure = double.parse(_tenurecontroller.text);
-    double intrest = double.parse(_intrestcontroller.text);
 
-    double newemi = calculateEmi(loan, intrest, tenure);
+    if(_formkey.currentState!.validate()){
+      String name = _namecontroller.text; 
+      int age = int.parse(_agecontroller.text);
+      double salary = double.parse(_salarycontroller.text);
+      double loan = double.parse(_loancontroller.text);
+      double existingemi = double.parse(_existingemicontroller.text);
+      double tenure = double.parse(_tenurecontroller.text);
+      double intrest = double.parse(_intrestcontroller.text);
 
-    double dti = ((existingemi + newemi) / salary) * 100;
-    String eligibility = "";
-    if(age <= 21 || age >= 60){
-      eligibility = "Not Eligible (Age should be in between 21 and 60)";
-    }
-    else if (loan > (10 * salary)){
-      eligibility = "Not Eligible (Loan should not exceed 10 times of your salary)";
-    }
-    else if(dti > 60){
-      eligibility = "Not Eligible (DTI exceeds 60%)";
-    }
-    else{
-      eligibility = "Your Loan got approved.\n Customer: $name \n EMI: ₹${newemi.toStringAsFixed(2)} \n DTI: ${dti.toStringAsFixed(2)}";
-    }
+      double newemi = calculateEmi(loan, intrest, tenure);
+
+      double dti = ((existingemi + newemi) / salary) * 100;
+      String eligibility = "";
+      if(age <= 21 || age >= 60){
+        eligibility = "Not Eligible (Age should be in between 21 and 60)";
+      }
+      else if (loan > (10 * salary)){
+        eligibility = "Not Eligible (Loan should not exceed 10 times of your salary)";
+      }
+      else if(dti > 60){
+        eligibility = "Not Eligible (DTI exceeds 60%)";
+      }
+      else{
+        eligibility = "Your Loan got approved.\n Customer: $name \n EMI: ₹${newemi.toStringAsFixed(2)} \n DTI: ${dti.toStringAsFixed(2)}";
+      }
     setState(() {
       _result = eligibility;
     });
+    }
+    
   }
   void _reset() {
     _namecontroller.clear();
@@ -80,7 +84,6 @@ class _MyWidgetState extends State<MyWidget> {
           padding: EdgeInsets.all(10),
           child: Form(
             key: _formkey,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: [
                 TextFormField(
