@@ -75,11 +75,12 @@ class _MyWidgetState extends State<MyWidget> {
     return MaterialApp(
       title: "Loan Eligibility check",
       home: Scaffold(
-        appBar: AppBar(title: Text("Loan Eligibility Check")),
+        appBar: AppBar(title: Text("Loan Eligibility Check"), backgroundColor: Colors.lightGreen),
         body: Container(
           padding: EdgeInsets.all(10),
           child: Form(
             key: _formkey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: [
                 TextFormField(
